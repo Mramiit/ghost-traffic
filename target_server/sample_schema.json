@@ -1,0 +1,196 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Ghost Market Checkout API",
+    "version": "1.0.0",
+    "description": "Realistic target e-commerce checkout service for Ghost Traffic autonomous chaos fuzz testing."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8000",
+      "description": "Local test server"
+    }
+  ],
+  "paths": {
+    "/api/v1/checkout": {
+      "post": {
+        "summary": "Process Order Checkout",
+        "description": "Processes an e-commerce order checkout with customer credentials, item quantity, discount coupons, shipping notes, and arbitrary telemetry metadata.",
+        "operationId": "processCheckout",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order placed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error with stack trace details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CheckoutRequest": {
+        "type": "object",
+        "required": [
+          "username",
+          "quantity"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Customer username or account identifier",
+            "example": "alex_shopper"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Number of items to purchase in this order",
+            "minimum": 1,
+            "example": 2
+          },
+          "coupon_code": {
+            "type": "string",
+            "description": "Promotional or discount code to apply",
+            "example": "SUMMER20"
+          },
+          "shipping_note": {
+            "type": "string",
+            "description": "Delivery instructions or courier notes",
+            "example": "Leave package at front porch"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Arbitrary client-side telemetry, session state, or tracking tags",
+            "additionalProperties": true,
+            "example": {
+              "utm_source": "google_search",
+              "client_version": "1.4.0",
+              "experiments": {
+                "quick_checkout": true
+              }
+            }
+          }
+        }
+      },
+      "CheckoutResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "order_id": {
+            "type": "string",
+            "example": "ORD-7FA91B4C"
+          },
+          "username": {
+            "type": "string",
+            "example": "alex_shopper"
+          },
+          "quantity": {
+            "type": "integer",
+            "example": 2
+          },
+          "total_amount": {
+            "type": "number",
+            "example": 89.98
+          },
+          "discount_applied": {
+            "type": "number",
+            "example": 10.0
+          },
+          "shipping_cost": {
+            "type": "number",
+            "example": 15.0
+          },
+          "message": {
+            "type": "string",
+            "example": "Checkout completed successfully."
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "ValidationError"
+          },
+          "message": {
+            "type": "string",
+            "example": "Fields 'username' and 'quantity' are required."
+          }
+        }
+      },
+      "ServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "ZeroDivisionError"
+          },
+          "detail": {
+            "type": "string",
+            "example": "float division by zero"
+          },
+          "exception_type": {
+            "type": "string",
+            "example": "builtins.ZeroDivisionError"
+          },
+          "traceback": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "raw_traceback": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string",
+            "example": "/api/v1/checkout"
+          },
+          "method": {
+            "type": "string",
+            "example": "POST"
+          }
+        }
+      }
+    }
+  }
+}
+
