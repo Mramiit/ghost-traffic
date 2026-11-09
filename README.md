@@ -1,198 +1,221 @@
 # 👻 Ghost Traffic
 
-> **Autonomous AI-Driven Chaos QA Swarm & Root Cause Triage Engine**  
-> *Built for the BharatCode Build League Hackathon*
+> **Autonomous AI-Driven Chaos QA Swarm & Self-Healing Root Cause Triage Engine**  
+> *Built for the BharatCode Build League Hackathon (Track: Coding & Developer Tools / Work & Automation)*
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688.svg)](https://fastapi.tiangolo.com)
-[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![BharatCode](https://img.shields.io/badge/Powered%20by-BharatCode%20AI%20(qwen--3.8--27b)-orange.svg)](https://bharatcode.ai)
+[![FastAPI](https://img.shields.io/badge/Target-FastAPI%20SUT-009688.svg)](https://fastapi.tiangolo.com)
+[![Async HTTPX](https://img.shields.io/badge/Engine-HTTPX%20Swarm-1085c5.svg)](https://www.python-httpx.org/)
+[![Terminal UI](https://img.shields.io/badge/UI-Rich%20Terminal-magenta.svg)](https://github.com/Textualize/rich)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 💡 Overview
+## ⚡ The Pitch
 
-Traditional API fuzzing relies on random bit flips or brute-force dictionary attacks that waste compute testing nonsensical inputs. **Ghost Traffic** turns the tables by deploying an **Autonomous Chaos QA Swarm** powered by LLMs.
-
-Ghost Traffic analyzes your OpenAPI/JSON schemas and synthesizes context-aware, adversarial payloads across specialized **Chaos Personas**. When the target server crashes (HTTP 500), Ghost Traffic intercepts the stack trace, diagnoses the root cause with AI, and generates actionable triage cards and publication-ready Markdown audit reports.
-
----
-
-## 🎯 Key Features
-
-- **🧠 Autonomous Swarm Personas**:
-  - **The SQL Injector**: Synthesizes injection strings that bypass naive ORM and raw query filters.
-  - **The Boundary Pusher**: Explores zero-division, negative numbers, inventory underflow, and numeric limits.
-  - **The Unicode Destroyer**: Crafts 4-byte UTF-8 emojis and zero-width joiners (ZWJ/ZWNJ) to break legacy codecs.
-  - **The Nesting Fiend**: Injects deeply nested JSON objects designed to trigger recursion limits.
-  - **The Type Anarchist**: Delivers type-confusion payloads (e.g., integers/lists where strings are expected).
-
-- **🔍 Automatic Root Cause Analysis (RCA)**:
-  - Detects HTTP 500 crashes in real-time.
-  - Passes stack traces and request payloads to the AI triage engine.
-  - Generates clear remediation snippets and code fixes.
-
-- **📊 Rich Terminal UI & Markdown Audits**:
-  - Live execution tables powered by `Rich`.
-  - Color-coded security verdicts (`VULNERABLE`, `RESILIENT`, `SUSPICIOUS`).
-  - Auto-exports timestamped reports to `reports/chaos_report_*.md`.
-
-- **🎯 Built-in Deliberately Vulnerable Target**:
-  - Includes a mock checkout server (`POST /api/v1/checkout`) with 5 deliberate backend bugs for testing and live demonstrations.
+Traditional API fuzzers mindlessly spew random byte mutations that get rejected by basic regex filters before ever reaching application code. **Ghost Traffic** deploys an autonomous swarm of **AI Chaos Personas** that reason about API schemas and business logic constraints to trigger real unhandled backend crashes—then automatically analyzes the leaked stack traces to produce surgical, copy-pasteable Python code patches.
 
 ---
 
 ## 🏗️ Architecture
 
+Ghost Traffic operates a dual-stage agentic loop orchestrated with the **BharatCode API (`qwen-3.8-27b`)**:
+
 ```
-                    ┌────────────────────────┐
-                    │   OpenAPI / JSON       │
-                    │   Target Schema        │
-                    └───────────┬────────────┘
-                                │
-                                ▼
-                    ┌────────────────────────┐
-                    │  BharatCode AI Engine  │
-                    │   (5 Chaos Personas)   │
-                    └───────────┬────────────┘
-                                │
-                 ┌──────────────┴──────────────┐
-                 ▼                             ▼
-       [Adversarial Payloads]        [Concurrent Execution]
-                 │                             │
-                 └──────────────┬──────────────┘
-                                ▼
-                    ┌────────────────────────┐
-                    │   System Under Test    │
-                    │   (Target API Server)  │
-                    └───────────┬────────────┘
-                                │
-                 ┌──────────────┴──────────────┐
-                 ▼                             ▼
-           [HTTP 200/400]                [HTTP 500 Crashes]
-             (Handled)                   (Full Stack Trace)
-                                               │
-                                               ▼
-                                    ┌──────────────────────┐
-                                    │ AI Root Cause Triage │
-                                    └──────────┬───────────┘
-                                               │
-                                               ▼
-                                    ┌──────────────────────┐
-                                    │ Rich Terminal Cards  │
-                                    │  & Markdown Audits   │
-                                    └──────────────────────┘
+ ┌────────────────────────┐
+ │   OpenAPI 3.0 / JSON   │
+ │   Target Schema File   │
+ └───────────┬────────────┘
+             │
+             ▼
+ ┌────────────────────────────────────────────────────────┐
+ │ Stage 1: BharatCode AI Engine (qwen-3.8-27b)           │
+ │  • Reads schema definitions and field boundaries       │
+ │  • Deploys 5 Specialized "Chaos Personas"              │
+ └───────────┬────────────────────────────────────────────┘
+             │
+             ▼ [8 Structured Adversarial Payloads + Hypotheses]
+ ┌────────────────────────────────────────────────────────┐
+ │ Async HTTPX Chaos Swarm (Controlled Concurrency)       │
+ │  • Rate-limited execution via asyncio.Semaphore(3)     │
+ │  • Real-time Rich progress bar & latency telemetry     │
+ └───────────┬────────────────────────────────────────────┘
+             │
+             ▼ [HTTP 500 Crash Stack Traces Intercepted]
+ ┌────────────────────────────────────────────────────────┐
+ │ Stage 2: BharatCode AI Root-Cause Triage (qwen-3.8-27b)│
+ │  • Deep Stack-Trace Analysis & CWE Taxonomy Mapping    │
+ │  • Automated Generation of 2-4 Line Python Fix Diff    │
+ └───────────┬────────────────────────────────────────────┘
+             │
+             ▼
+ ┌────────────────────────────────────────────────────────┐
+ │ Developer Output Artifacts                             │
+ │  • Rich Monokai Syntax Triage Cards in Terminal        │
+ │  • GHOST_REPORT.md (GitHub Issue / PR Ready Audit)     │
+ └────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🎭 The 5 Chaos Personas
 
-### 1. Clone & Set Up Environment
+| Persona | Attack Strategy | Target Vulnerabilities |
+| :--- | :--- | :--- |
+| 💉 **The SQL Injector** | Crafts unparameterized SQL syntax, stacked queries, and comment bypasses in text fields. | SQL Injection (CWE-89), OperationalErrors |
+| 👾 **The Unicode Gremlin** | Injects 4-byte UTF-8 emojis, Zero-Width Joiners (`\u200d`), and RTL overrides. | Encoding mismatches (CWE-172), latin-1 DB crashes |
+| 💥 **The Boundary Breaker** | Tests `0`, `-1`, negative reserves, and integer boundaries. | Divide by Zero (CWE-369), Numeric Underflows |
+| 🔀 **The Type-Switcher** | Injects integers, arrays, or booleans into fields expecting strings. | Type Confusion (CWE-843), Unhandled `AttributeError` |
+| 📦 **The JSON Hoarder** | Delivers deeply nested objects ($> 5$ levels) and recursive payloads. | Recursion limits (CWE-674), Stack Exhaustion |
 
+---
+
+## ⏱️ 60-Second Quickstart
+
+### Step 1: Install Dependencies
 ```bash
 git clone https://github.com/<your-username>/ghost-traffic.git
 cd ghost-traffic
-
-# Create and activate virtual environment
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Linux/macOS:
-source venv/bin/activate
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment Variables
-
-Copy the template `.env.example` to `.env`:
-
+### Step 2: Configure Environment (Optional)
 ```bash
 cp .env.example .env
 ```
+*(Ghost Traffic includes a deterministic fallback chaos suite and heuristic triage engine, so it runs out-of-the-box even without an API key!)*
 
-Edit `.env` to supply your BharatCode or OpenAI API credentials:
+### Step 3: Start the Vulnerable Server (Terminal 1)
+```bash
+uvicorn target_server.app:app --port 8000
+```
+*The deliberately vulnerable checkout target boots at `http://127.0.0.1:8000` with 5 unhandled backend bugs.*
 
-```ini
-BHARATCODE_API_KEY=your_bharatcode_api_key_here
-BHARATCODE_BASE_URL=https://api.bharatcode.ai/v1
-BHARATCODE_MODEL=qwen-3.8-27b
+### Step 4: Unleash Ghost Traffic (Terminal 2)
+```bash
+python main.py
+```
+*Ghost Traffic summons the personas, fires the swarm against `POST /api/v1/checkout`, triages all crashes with AI, and saves `GHOST_REPORT.md`!*
+
+---
+
+## 🖥️ Sample Terminal Output
+
+```text
+ 👻 GHOST TRAFFIC v0.1.0 // AUTONOMOUS CHAOS QA SWARM
+ BharatCode Build League Hackathon
+
+🎯 Armed Chaos Swarm Personas & Target Attack Vectors:
+┏━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ # ┃ Chaos Persona        ┃ Attack Vector                      ┃ Target Hypothesis                       ┃
+┡━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ 1 │ The SQL Injector     │ Coupon Code SQLi Operator Bypass   │ Raw query string triggers SQL error     │
+│ 2 │ The Unicode Gremlin  │ 4-Byte Emoji UTF-8 Driver Crash    │ 4-byte emojis crash legacy latin-1 DB   │
+│ 3 │ The Boundary Breaker │ Zero Quantity Division Underflow   │ Quantity 0 triggers ZeroDivisionError   │
+│ 4 │ The Boundary Breaker │ Negative Inventory Reserve         │ Negative quantity triggers underflow    │
+│ 5 │ The Type-Switcher    │ Integer Coupon Code Type Confusion │ Int coupon causes AttributeError .upper │
+│ 6 │ The JSON Hoarder     │ Deeply Nested Recursive Explosion  │ Nesting > 5 triggers RecursionError     │
+└───┴──────────────────────┴────────────────────────────────────┴─────────────────────────────────────────┘
+
+Unleashing Ghost Traffic Swarm... [━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━] 100% • 00:03
+
+⚡ Chaos Swarm Telemetry & Security Assessment:
+┏━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ # ┃ Persona              ┃ Attack Vector                      ┃ HTTP Status┃ Latency  ┃ Verdict    ┃
+┡━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ 1 │ The SQL Injector     │ Coupon Code SQLi Operator Bypass   │    500     │ 14.2ms   │ VULNERABLE │
+│ 2 │ The Unicode Gremlin  │ 4-Byte Emoji UTF-8 Driver Crash    │    500     │ 12.1ms   │ VULNERABLE │
+│ 3 │ The Boundary Breaker │ Zero Quantity Division Underflow   │    500     │ 11.5ms   │ VULNERABLE │
+│ 4 │ The Boundary Breaker │ Negative Inventory Reserve         │    500     │ 10.8ms   │ VULNERABLE │
+│ 5 │ The Type-Switcher    │ Integer Coupon Code Type Confusion │    500     │ 13.0ms   │ VULNERABLE │
+│ 6 │ The JSON Hoarder     │ Deeply Nested Recursive Explosion  │    500     │ 18.4ms   │ VULNERABLE │
+└───┴──────────────────────┴────────────────────────────────────┴━━━━━━━━━━━━┴━━━━━━━━━━┴━━━━━━━━━━━━┘
+
+════════ Finding #1: Integer Coupon Code Type Confusion ════════
+  [HIGH] Unhandled Type Confusion (CWE-843)
+  Attacker Persona: The Type-Switcher
+  Root Cause: Endpoint directly invoked .upper() on coupon_code without verifying it is a str.
+
+💣 Reproducing Adversarial Payload:
+{
+  "username": "type_confuser",
+  "quantity": 1,
+  "coupon_code": 99999,
+  "shipping_note": "Express courier"
+}
+
+🛡️ Suggested Surgical Patch (Remediation):
+1  if not isinstance(coupon_code, str):
+2      raise HTTPException(status_code=400, detail='coupon_code must be a string')
+3  coupon_clean = coupon_code.upper()
+
+✔ Security Audit Report successfully compiled!
+File Location: c:\Users\itzmr\Hackathon\BharatCode\ghost-traffic\GHOST_REPORT.md
 ```
 
-> **Note**: Even without an active API key, Ghost Traffic includes built-in offline payload fallbacks and heuristic triage so you can run the full suite anytime!
+---
 
-### 3. Start the Vulnerable Target Server
+## 📄 Sample Generated `GHOST_REPORT.md`
 
-In one terminal, start the included vulnerable target server:
+```markdown
+# 👻 GHOST TRAFFIC — Autonomous Chaos QA Audit Report
+> Generated by Ghost Traffic • AI-Driven Autonomous Chaos QA Swarm for BharatCode Build League
 
-```bash
-python main.py target
+## 1. Executive Summary
+| Metric | Value |
+| :--- | :--- |
+| **Target Endpoint** | `http://127.0.0.1:8000/api/v1/checkout` |
+| **Total Swarm Attacks** | `8` |
+| **Vulnerabilities Triggered (HTTP 500)** | `6` |
+| **Failure / Crash Rate** | **`75.0%`** |
+| **Average Round-Trip Latency** | `13.3 ms` |
+
+---
+
+## 2. Vulnerability Root Cause Analysis (RCA) & Remediation
+
+### Finding #1: Coupon Code Raw Query SQL Injection Bypass
+- **Severity:** `CRITICAL`
+- **Vulnerability Classification:** `Improper Neutralization of Special Elements in SQL Command (CWE-89)`
+- **Attacker Persona:** `The SQL Injector`
+- **Target Response:** HTTP `500`
+
+#### 💣 Reproducing Payload
+```json
+{
+  "username": "shopper_sqli",
+  "quantity": 1,
+  "coupon_code": "' OR 1=1 --"
+}
 ```
 
-The server will boot at `http://127.0.0.1:8000`. You can inspect the interactive OpenAPI documentation at `http://127.0.0.1:8000/docs`.
+#### 🔍 Root Cause Analysis
+> Unsanitized user-controlled coupon_code is concatenated directly into raw SQL string without parameterized query bindings.
 
-### 4. Run the Chaos QA Swarm
-
-In another terminal, launch the chaos swarm:
-
-```bash
-python main.py fuzz --target-url http://127.0.0.1:8000 --concurrency 3
+#### 🛡️ Suggested Surgical Patch
+```python
+# Use parameterized SQL queries instead of raw string concatenation:
+cursor.execute('SELECT * FROM coupons WHERE code = ?', (coupon_code,))
 ```
-
-### 5. Run Verification Tests
-
-Run the in-memory test suite to verify all 5 deliberate backend bug vectors:
-
-```bash
-python test_bugs.py
 ```
 
 ---
 
 ## 🛠️ CLI Reference
 
-```
-Usage: python main.py [COMMAND] [OPTIONS]
+```bash
+# Run swarm against custom target and schema
+python main.py --target http://127.0.0.1:8000/api/v1/checkout --schema target_server/sample_schema.json --output GHOST_REPORT.md
 
-Commands:
-  target    Start the deliberately vulnerable FastAPI target server locally.
-  fuzz      Launch the autonomous chaos QA swarm against a target endpoint.
-  version   Display current version of Ghost Traffic.
-```
+# Shorthand options
+python main.py fuzz -t http://127.0.0.1:8000/api/v1/checkout -o GHOST_REPORT.md
 
-### `python main.py fuzz` Options
+# Run target server
+python main.py start-target --port 8000
 
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `--target-url` | `TEXT` | `http://127.0.0.1:8000` | Target server base URL |
-| `--endpoint` | `TEXT` | `/api/v1/checkout` | Target API endpoint path |
-| `--schema` | `PATH` | `target_server/sample_schema.json` | Path to OpenAPI/JSON schema |
-| `--concurrency` | `INT` | `3` | Concurrent worker tasks |
-| `--delay` | `FLOAT` | `0.35` | Delay in seconds between requests |
-| `--timeout` | `FLOAT` | `5.0` | HTTP request timeout in seconds |
-
----
-
-## 📁 Repository Structure
-
-```
-ghost-traffic/
-├── .env.example              # Environment variables template
-├── .gitignore                # Git ignore rules for Python, virtualenvs, reports
-├── main.py                   # Main CLI entrypoint (Typer & Rich)
-├── requirements.txt          # Python project dependencies
-├── test_bugs.py              # In-memory test suite for bug verification
-├── README.md                 # Project documentation and guide
-├── ghost/                    # Core chaos engine package
-│   ├── __init__.py           # Package version and metadata
-│   ├── fuzzer.py             # Asynchronous swarm execution engine
-│   ├── llm_client.py         # BharatCode / OpenAI LLM integration & personas
-│   └── reporter.py           # Rich terminal UI & Markdown report generator
-└── target_server/            # Deliberately vulnerable mock server
-    ├── app.py                # FastAPI checkout service with 5 deliberate bugs
-    └── sample_schema.json    # JSON schema definition for SUT
+# Verify in-memory bug suite without network dependencies
+python main.py verify
 ```
 
 ---
@@ -200,10 +223,10 @@ ghost-traffic/
 ## 👥 Hackathon Team & Acknowledgements
 
 Developed for the **BharatCode Build League Hackathon**.  
-Special thanks to the BharatCode team for providing developer tooling and model endpoints.
+Powered by the **BharatCode API (`qwen-3.8-27b`)**.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License. See [LICENSE](LICENSE) for details.
