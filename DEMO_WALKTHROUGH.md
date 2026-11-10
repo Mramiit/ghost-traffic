@@ -81,3 +81,4 @@
    - Note that Ghost Traffic features built-in deterministic heuristic fallbacks so live demos never fail even if Wi-Fi fluctuates on stage.
 3. **Show the GitHub CI Badge**:
    - Mention that Ghost Traffic includes automated CI regression suites running across Python 3.10, 3.11, and 3.12.
+

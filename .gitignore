@@ -56,7 +56,8 @@ coverage.xml
 cover/
 
 # Chaos Swarm Reports (generated at runtime)
-reports/
+reports/*
+!reports/sample_chaos_report.md
 *.sqlite3
 *.db
 

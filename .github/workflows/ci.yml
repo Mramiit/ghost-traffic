@@ -36,3 +36,4 @@ jobs:
         run: |
           python main.py --help
           python main.py version
+

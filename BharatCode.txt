@@ -1,3 +1,4 @@
+bharatcode
 ================================================================================
 BHARATCODE BUILD LEAGUE HACKATHON - PROJECT SUBMISSION MANIFEST
 ================================================================================
@@ -5,11 +6,21 @@ BHARATCODE BUILD LEAGUE HACKATHON - PROJECT SUBMISSION MANIFEST
 PROJECT NAME:
 Ghost Traffic (Autonomous AI-Driven Chaos QA Swarm & Root Cause Triage Engine)
 
+HACKATHON:
+BharatCode Build League 2026 (https://bharatcode.ai/hackathon)
+
 HACKATHON TRACK:
-Coding & Developer Tools / Work & Automation
+AI Developer Utilities / Coding & Automation / Autonomous Agents
+
+REPOSITORY:
+https://github.com/Mramiit/ghost-traffic.git
+
+AUTHOR:
+Amit Kumar
 
 MODEL UTILIZED:
-BharatCode API (`qwen-3.8-27b`) via OpenAI-compatible endpoint interface
+BharatCode API (`qwen-3.8-27b`) via OpenAI-compatible endpoint:
+https://bharatcode.ai/api/model/v1
 
 ================================================================================
 DUAL-STAGE AGENTIC HARNESS OVERVIEW
@@ -30,13 +41,13 @@ uses the BharatCode API to act as a Principal Security & Chaos QA Engineer that:
 2. Summons 5 specialized "Chaos Personas" to generate surgical payloads:
    - "The SQL Injector": Injects stacked queries, comment truncations, and
      unparameterized SQL bypasses into text fields.
-   - "The Unicode Gremlin": Synthesizes 4-byte UTF-8 emojis, Zero-Width
+   - "The Unicode Destroyer": Synthesizes 4-byte UTF-8 emojis, Zero-Width
      Joiners (\u200d), and RTL overrides to crash legacy database drivers.
-   - "The Boundary Breaker": Tests numeric zero divisions, negative reserves,
+   - "The Boundary Pusher": Tests numeric zero divisions, negative reserves,
      and integer underflow boundaries.
-   - "The Type-Switcher": Delivers type-confusion mutations (e.g., passing
+   - "The Type Anarchist": Delivers type-confusion mutations (e.g., passing
      arrays/integers where strings are expected to trigger unhandled .upper()).
-   - "The JSON Hoarder": Injects deep object nesting (> 5 levels) to trigger
+   - "The Nesting Fiend": Injects deep object nesting (> 5 levels) to trigger
      stack exhaustion and RecursionErrors.
 3. Formats payloads into strict structured JSON with explicit hypotheses.
 
@@ -50,8 +61,8 @@ traceback on the target system:
 2. The BharatCode API evaluates the crash context against the offending payload
    to perform automated Root Cause Analysis (RCA):
    - Maps the vulnerability to standardized Common Weakness Enumeration
-     taxonomy (e.g., CWE-89, CWE-369, CWE-172, CWE-674, CWE-843).
-   - Assigns a CVSS severity score (CRITICAL, HIGH, MEDIUM).
+     taxonomy (e.g., CWE-89, CWE-369, CWE-176, CWE-674, CWE-843).
+   - Assigns a severity score (CRITICAL, HIGH, MEDIUM).
    - Produces a 1-sentence technical explanation of why the backend failed.
 3. Generates a concise, surgical 2-4 line Python code patch (`fix_diff`) that
    developers can immediately apply to harden the endpoint.
@@ -62,9 +73,9 @@ traceback on the target system:
 REPOSITORY & EXECUTION DETAILS
 ================================================================================
 Primary CLI Entrypoint: main.py
+1-Click Demo Runner: python run_demo.py (or python main.py demo)
 Configuration: .env (BHARATCODE_API_KEY, BHARATCODE_BASE_URL, BHARATCODE_MODEL)
 Vulnerable Target: target_server/app.py (FastAPI checkout service)
-Test Verification: python main.py verify
-Report Artifact: GHOST_REPORT.md
+Test Verification: python test_bugs.py (or python main.py verify)
+Sample Report Artifact: reports/sample_chaos_report.md
 ================================================================================
-

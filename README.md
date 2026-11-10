@@ -1,10 +1,11 @@
 # 👻 Ghost Traffic
 
 > **Autonomous AI-Driven Chaos QA Swarm & Self-Healing Root Cause Triage Engine**  
-> *Built for the BharatCode Build League Hackathon (Track: Coding & Developer Tools / Work & Automation)*
+> *Built for the BharatCode Build League Hackathon (Track: AI Developer Tools / Autonomous Agents)*
 
-[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![BharatCode](https://img.shields.io/badge/Powered%20by-BharatCode%20AI%20(qwen--3.8--27b)-orange.svg)](https://bharatcode.ai)
+[![Hackathon](https://img.shields.io/badge/Hackathon-BharatCode%20Build%20League-blueviolet.svg)](https://bharatcode.ai/hackathon)
+[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/Target-FastAPI%20SUT-009688.svg)](https://fastapi.tiangolo.com)
 [![Async HTTPX](https://img.shields.io/badge/Engine-HTTPX%20Swarm-1085c5.svg)](https://www.python-httpx.org/)
 [![Terminal UI](https://img.shields.io/badge/UI-Rich%20Terminal-magenta.svg)](https://github.com/Textualize/rich)
@@ -14,13 +15,72 @@
 
 ## ⚡ The Pitch
 
-Traditional API fuzzers mindlessly spew random byte mutations that get rejected by basic regex filters before ever reaching application code. **Ghost Traffic** deploys an autonomous swarm of **AI Chaos Personas** that reason about API schemas and business logic constraints to trigger real unhandled backend crashes—then automatically analyzes the leaked stack traces to produce surgical, copy-pasteable Python code patches.
+Traditional API fuzzers mindlessly spew random byte mutations that get rejected by basic regex filters before ever reaching application code. 
+
+**Ghost Traffic** turns the tables by deploying an autonomous swarm of **AI Chaos Personas** powered by the **BharatCode API (`qwen-3.8-27b`)**. The swarm inspects API schemas, hypothesizes subtle business logic flaws, synthesizes adversarial edge-case payloads, and attacks endpoints concurrently. When a crash (HTTP 500) is triggered, Ghost Traffic captures the leaked traceback, performs automated **Root Cause Analysis (RCA)**, and generates copy-pasteable Python code patches—all rendered in a cyber-security styled terminal UI and exported as publication-ready GitHub Markdown audit reports.
+
+---
+
+## 🔑 Where to Add Your BharatCode API Key
+
+Ghost Traffic is built to work out of the box with **BharatCode's Model API**:
+
+1. **Get your key**: Sign in at [bharatcode.ai](https://bharatcode.ai) and copy your API key (starts with `bc_live_...`).
+2. **Open the `.env` file** in the project root (a pre-configured template `.env` has been created for you, or copy from `.env.example`):
+   ```bash
+   cp .env.example .env
+   ```
+3. **Paste your key** into `.env`:
+   ```ini
+   # BharatCode Model API Configuration
+   BHARATCODE_API_KEY=bc_live_your_actual_api_key_here
+   BHARATCODE_BASE_URL=https://bharatcode.ai/api/model/v1
+   BHARATCODE_MODEL=qwen-3.8-27b
+   # Alternative supported model: deepseek-v4.1-flash
+   ```
+
+> 🛡️ **Zero-Setup Offline Fallback Mode**: Even if you do not have an API key right now or if network access is restricted, Ghost Traffic includes a **bulletproof deterministic fallback engine**. It comes pre-loaded with 8 realistic adversarial attack vectors across all 5 personas and heuristic AST traceback triage so judges can test the full end-to-end workflow immediately!
+
+---
+
+## ⏱️ 1-Click Quickstart (Judge & Demo Friendly)
+
+### Option A: 1-Click Autonomous Demo
+Boots the included vulnerable target server, unleashes the AI Chaos Swarm, renders real-time Rich triage cards, and saves the Markdown report in one command:
+```bash
+python run_demo.py
+# Or: python main.py demo
+```
+
+### Option B: Step-by-Step Manual Run
+
+**1. Install Dependencies**
+```bash
+git clone https://github.com/<your-username>/ghost-traffic.git
+cd ghost-traffic
+pip install -r requirements.txt
+```
+
+**2. Start Vulnerable Target Server (Terminal 1)**
+```bash
+python main.py start-target
+```
+*The deliberately vulnerable checkout target boots at `http://127.0.0.1:8000` with 5 real backend bugs.*
+
+**3. Unleash Ghost Traffic Swarm (Terminal 2)**
+```bash
+python main.py fuzz
+```
+
+**4. Run In-Memory Verification Test Suite**
+```bash
+python test_bugs.py
+```
+*Verifies all 5 deliberate backend crash bugs in-memory without network sockets.*
 
 ---
 
 ## 🏗️ Architecture
-
-Ghost Traffic operates a dual-stage agentic loop orchestrated with the **BharatCode API (`qwen-3.8-27b`)**:
 
 ```
  ┌────────────────────────┐
@@ -63,78 +123,26 @@ Ghost Traffic operates a dual-stage agentic loop orchestrated with the **BharatC
 
 | Persona | Attack Strategy | Target Vulnerabilities |
 | :--- | :--- | :--- |
-| 💉 **The SQL Injector** | Crafts unparameterized SQL syntax, stacked queries, and comment bypasses in text fields. | SQL Injection (CWE-89), OperationalErrors |
-| 👾 **The Unicode Gremlin** | Injects 4-byte UTF-8 emojis, Zero-Width Joiners (`\u200d`), and RTL overrides. | Encoding mismatches (CWE-172), latin-1 DB crashes |
-| 💥 **The Boundary Breaker** | Tests `0`, `-1`, negative reserves, and integer boundaries. | Divide by Zero (CWE-369), Numeric Underflows |
-| 🔀 **The Type-Switcher** | Injects integers, arrays, or booleans into fields expecting strings. | Type Confusion (CWE-843), Unhandled `AttributeError` |
-| 📦 **The JSON Hoarder** | Delivers deeply nested objects ($> 5$ levels) and recursive payloads. | Recursion limits (CWE-674), Stack Exhaustion |
+| 💉 **The SQL Injector** | Crafts unparameterized SQL syntax, stacked queries, and comment bypasses in text fields. | SQL Injection (`CWE-89`), `OperationalError` |
+| 👾 **The Unicode Destroyer** | Injects 4-byte UTF-8 emojis (`🚀`), Zero-Width Joiners (`\u200d`), and legacy charset breaks. | Encoding mismatches (`CWE-176`), latin-1 DB crashes |
+| 💥 **The Boundary Pusher** | Tests `0`, `-1`, negative inventory reserves, and integer boundaries. | Divide by Zero (`CWE-369`), Numeric Underflows |
+| 🔀 **The Type Anarchist** | Injects integers, arrays, or booleans into fields expecting strings. | Type Confusion (`CWE-843`), Unhandled `AttributeError` |
+| 📦 **The Nesting Fiend** | Delivers deeply nested JSON objects (> 5 levels) and recursive payloads. | Recursion limits (`CWE-674`), Stack Exhaustion |
 
 ---
 
-## ⏱️ 60-Second Quickstart
+## 📊 Sample Output & Audit Report
 
-### Step 1: Install Dependencies
-```bash
-git clone https://github.com/<your-username>/ghost-traffic.git
-cd ghost-traffic
-pip install -r requirements.txt
-```
-
-### Step 2: Configure Environment (Optional)
-```bash
-cp .env.example .env
-```
-*(Ghost Traffic includes a deterministic fallback chaos suite and heuristic triage engine, so it runs out-of-the-box even without an API key!)*
-
-### Step 3: Start the Vulnerable Server (Terminal 1)
-```bash
-uvicorn target_server.app:app --port 8000
-```
-*The deliberately vulnerable checkout target boots at `http://127.0.0.1:8000` with 5 unhandled backend bugs.*
-
-### Step 4: Unleash Ghost Traffic (Terminal 2)
-```bash
-python main.py
-```
-*Ghost Traffic summons the personas, fires the swarm against `POST /api/v1/checkout`, triages all crashes with AI, and saves `GHOST_REPORT.md`!*
-
----
-
-## 🖥️ Sample Terminal Output
+Ghost Traffic automatically writes a publication-ready GitHub-flavored Markdown audit report on every run:
+* 📄 **[View Sample Audit Report](reports/SAMPLE_GHOST_REPORT.md)**
 
 ```text
  👻 GHOST TRAFFIC v0.1.0 // AUTONOMOUS CHAOS QA SWARM
  BharatCode Build League Hackathon
 
-🎯 Armed Chaos Swarm Personas & Target Attack Vectors:
-┏━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ # ┃ Chaos Persona        ┃ Attack Vector                      ┃ Target Hypothesis                       ┃
-┡━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-│ 1 │ The SQL Injector     │ Coupon Code SQLi Operator Bypass   │ Raw query string triggers SQL error     │
-│ 2 │ The Unicode Gremlin  │ 4-Byte Emoji UTF-8 Driver Crash    │ 4-byte emojis crash legacy latin-1 DB   │
-│ 3 │ The Boundary Breaker │ Zero Quantity Division Underflow   │ Quantity 0 triggers ZeroDivisionError   │
-│ 4 │ The Boundary Breaker │ Negative Inventory Reserve         │ Negative quantity triggers underflow    │
-│ 5 │ The Type-Switcher    │ Integer Coupon Code Type Confusion │ Int coupon causes AttributeError .upper │
-│ 6 │ The JSON Hoarder     │ Deeply Nested Recursive Explosion  │ Nesting > 5 triggers RecursionError     │
-└───┴──────────────────────┴────────────────────────────────────┴─────────────────────────────────────────┘
-
-Unleashing Ghost Traffic Swarm... [━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━] 100% • 00:03
-
-⚡ Chaos Swarm Telemetry & Security Assessment:
-┏━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃ # ┃ Persona              ┃ Attack Vector                      ┃ HTTP Status┃ Latency  ┃ Verdict    ┃
-┡━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━┩
-│ 1 │ The SQL Injector     │ Coupon Code SQLi Operator Bypass   │    500     │ 14.2ms   │ VULNERABLE │
-│ 2 │ The Unicode Gremlin  │ 4-Byte Emoji UTF-8 Driver Crash    │    500     │ 12.1ms   │ VULNERABLE │
-│ 3 │ The Boundary Breaker │ Zero Quantity Division Underflow   │    500     │ 11.5ms   │ VULNERABLE │
-│ 4 │ The Boundary Breaker │ Negative Inventory Reserve         │    500     │ 10.8ms   │ VULNERABLE │
-│ 5 │ The Type-Switcher    │ Integer Coupon Code Type Confusion │    500     │ 13.0ms   │ VULNERABLE │
-│ 6 │ The JSON Hoarder     │ Deeply Nested Recursive Explosion  │    500     │ 18.4ms   │ VULNERABLE │
-└───┴──────────────────────┴────────────────────────────────────┴━━━━━━━━━━━━┴━━━━━━━━━━┴━━━━━━━━━━━━┘
-
 ════════ Finding #1: Integer Coupon Code Type Confusion ════════
   [HIGH] Unhandled Type Confusion (CWE-843)
-  Attacker Persona: The Type-Switcher
+  Attacker Persona: The Type Anarchist
   Root Cause: Endpoint directly invoked .upper() on coupon_code without verifying it is a str.
 
 💣 Reproducing Adversarial Payload:
@@ -148,85 +156,47 @@ Unleashing Ghost Traffic Swarm... [━━━━━━━━━━━━━━━
 🛡️ Suggested Surgical Patch (Remediation):
 1  if not isinstance(coupon_code, str):
 2      raise HTTPException(status_code=400, detail='coupon_code must be a string')
-3  coupon_clean = coupon_code.upper()
-
-✔ Security Audit Report successfully compiled!
-File Location: c:\Users\itzmr\Hackathon\BharatCode\ghost-traffic\GHOST_REPORT.md
 ```
 
 ---
 
-## 📄 Sample Generated `GHOST_REPORT.md`
+## 📁 Repository Structure
 
-```markdown
-# 👻 GHOST TRAFFIC — Autonomous Chaos QA Audit Report
-> Generated by Ghost Traffic • AI-Driven Autonomous Chaos QA Swarm for BharatCode Build League
-
-## 1. Executive Summary
-| Metric | Value |
-| :--- | :--- |
-| **Target Endpoint** | `http://127.0.0.1:8000/api/v1/checkout` |
-| **Total Swarm Attacks** | `8` |
-| **Vulnerabilities Triggered (HTTP 500)** | `6` |
-| **Failure / Crash Rate** | **`75.0%`** |
-| **Average Round-Trip Latency** | `13.3 ms` |
-
----
-
-## 2. Vulnerability Root Cause Analysis (RCA) & Remediation
-
-### Finding #1: Coupon Code Raw Query SQL Injection Bypass
-- **Severity:** `CRITICAL`
-- **Vulnerability Classification:** `Improper Neutralization of Special Elements in SQL Command (CWE-89)`
-- **Attacker Persona:** `The SQL Injector`
-- **Target Response:** HTTP `500`
-
-#### 💣 Reproducing Payload
-```json
-{
-  "username": "shopper_sqli",
-  "quantity": 1,
-  "coupon_code": "' OR 1=1 --"
-}
 ```
-
-#### 🔍 Root Cause Analysis
-> Unsanitized user-controlled coupon_code is concatenated directly into raw SQL string without parameterized query bindings.
-
-#### 🛡️ Suggested Surgical Patch
-```python
-# Use parameterized SQL queries instead of raw string concatenation:
-cursor.execute('SELECT * FROM coupons WHERE code = ?', (coupon_code,))
-```
+ghost-traffic/
+├── BharatCode.txt            # Mandatory BharatCode hackathon verification file
+├── .env                      # Local API keys (pre-created template, git-ignored)
+├── .env.example              # Environment variables template
+├── .gitignore                # Git ignore rules for Python, virtualenvs, reports
+├── LICENSE                   # MIT License
+├── README.md                 # Complete documentation and quickstart
+├── run_demo.py               # 1-Click autonomous demo runner for judges
+├── main.py                   # Main CLI entrypoint (Typer & Rich)
+├── requirements.txt          # Python project dependencies
+├── test_bugs.py              # In-memory test suite for bug verification
+├── ghost/                    # Core chaos swarm engine
+│   ├── __init__.py           # Package version (0.1.0)
+│   ├── fuzzer.py             # Asynchronous swarm execution engine
+│   ├── llm_client.py         # BharatCode AI API client & persona generator
+│   └── reporter.py           # Rich terminal UI & Markdown report generator
+├── target_server/            # Deliberately vulnerable mock server
+│   ├── app.py                # FastAPI checkout service with 5 deliberate bugs
+│   └── sample_schema.json    # JSON schema definition for SUT
+└── reports/                  # Generated audit reports
+    └── SAMPLE_GHOST_REPORT.md# Sample publication report for judges
 ```
 
 ---
 
-## 🛠️ CLI Reference
+## 🏆 Hackathon Compliance Details
 
-```bash
-# Run swarm against custom target and schema
-python main.py --target http://127.0.0.1:8000/api/v1/checkout --schema target_server/sample_schema.json --output GHOST_REPORT.md
-
-# Shorthand options
-python main.py fuzz -t http://127.0.0.1:8000/api/v1/checkout -o GHOST_REPORT.md
-
-# Run target server
-python main.py start-target --port 8000
-
-# Verify in-memory bug suite without network dependencies
-python main.py verify
-```
-
----
-
-## 👥 Hackathon Team & Acknowledgements
-
-Developed for the **BharatCode Build League Hackathon**.  
-Powered by the **BharatCode API (`qwen-3.8-27b`)**.
+* **Hackathon**: [BharatCode Build League 2026](https://bharatcode.ai/hackathon)
+* **Track**: AI Developer Utilities & Autonomous Agents
+* **Mandatory File**: `BharatCode.txt` included at repository root.
+* **Model Endpoint**: `https://bharatcode.ai/api/model/v1` (`qwen-3.8-27b`)
 
 ---
 
 ## 📄 License
 
-MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

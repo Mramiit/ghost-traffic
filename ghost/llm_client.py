@@ -35,7 +35,7 @@ BHARATCODE_API_KEY: str = (
 BHARATCODE_BASE_URL: str = (
     os.getenv("BHARATCODE_BASE_URL")
     or os.getenv("OPENAI_BASE_URL")
-    or "https://api.bharatcode.ai/v1"
+    or "https://bharatcode.ai/api/model/v1"
 )
 BHARATCODE_MODEL: str = (
     os.getenv("BHARATCODE_MODEL")
@@ -76,6 +76,8 @@ def is_api_configured() -> bool:
         return False
     placeholder_keys = {
         "your_bharatcode_api_key_here",
+        "bc_live_your_api_key_here",
+        "your_api_key_here",
         "your_openai_api_key_here",
         "dummy_key_for_init",
     }

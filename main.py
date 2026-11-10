@@ -402,6 +402,12 @@ if HAS_TYPER:
 
         uvicorn.run("app:app", host=host, port=port, reload=reload)
 
+    @app.command(name="demo")
+    def demo_command():
+        """1-Click Hackathon Demo: Boots target server, unleashes swarm, compiles audit report."""
+        from run_demo import run_demo
+        run_demo()
+
     @app.command(name="verify")
     def verify_command():
         """Run in-memory test suite verifying the 5 deliberate backend bugs."""
@@ -421,7 +427,11 @@ if HAS_TYPER:
 else:
     # Standard library fallback if typer is not installed
     def run_cli_fallback():
-        if len(sys.argv) > 1 and sys.argv[1] == "start-target":
+        if len(sys.argv) > 1 and sys.argv[1] == "demo":
+            from run_demo import run_demo
+            run_demo()
+            return
+        elif len(sys.argv) > 1 and sys.argv[1] == "start-target":
             # Delegate to start-target
             import uvicorn
             target_dir = Path(__file__).parent / "target_server"
